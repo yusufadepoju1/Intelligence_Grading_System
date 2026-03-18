@@ -1,0 +1,11 @@
+Marking Guide
+
+1. What is the capital of France? (2 points)
+Expected: Paris. No partial credit.
+
+2. Explain the theory of relativity briefly. (5 points)
+Expected: Should mention Albert Einstein, the relationship between space and time, and gravity as the curvature of space-time.
+Points: 1 for Einstein, 2 for space-time link, 2 for gravity/curvature.
+
+3. Name three programming paradigms. (3 points)
+Expected: Any three valid paradigms (e.g., Object-Oriented, Functional, Procedural, Declarative, Logic). 1 point per correct paradigm.

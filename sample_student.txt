@@ -1,0 +1,11 @@
+Student Name: Jane Doe
+Student ID: 104523
+
+1. What is the capital of France?
+Paris
+
+2. Explain the theory of relativity briefly.
+The theory of relativity, developed by Einstein, basically says that time and space are relative and linked together, and gravity is a consequence of mass bending space-time.
+
+3. Name three programming paradigms.
+Object-oriented, functional, and procedural.
