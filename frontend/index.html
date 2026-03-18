@@ -1,93 +1,52 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Grading Portal</title>
-    <!-- Google Fonts for Modern Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Grading App</title>
+    <link rel="stylesheet" href="/src/style.css">
   </head>
   <body>
-    <!-- Background Elements for Premium Look -->
-    <div class="blob-bg blob-1"></div>
-    <div class="blob-bg blob-2"></div>
+    <h1>Grading Project</h1>
+    <p>Upload files below to get them graded automatically.</p>
 
-    <div class="app-container">
-      <header class="app-header">
-        <h1>AI Auto-Grader</h1>
-        <p>Intelligent submission analysis powered by Llama</p>
-      </header>
-
-      <main class="main-content">
-        <!-- Upload Section (Glassmorphism card) -->
-        <section class="glass-card upload-section" id="uploadCard">
-          <h2>Upload Submission</h2>
-          
-          <form id="gradingForm" class="grading-form">
-            <div class="form-group">
-              <label for="studentFile">Student Submission (Required)</label>
-              <div class="file-drop-area" id="studentFileArea">
-                <span class="file-msg">Drag & Drop or Click to browse (PDF, DOCX, TXT)</span>
-                <input type="file" id="studentFile" name="studentFile" accept=".pdf,.doc,.docx,.txt" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="markingGuide">Marking Guide (Optional)</label>
-              <div class="file-drop-area" id="markingGuideArea">
-                <span class="file-msg">Drag & Drop or Click to browse (PDF, DOCX, TXT)</span>
-                <input type="file" id="markingGuide" name="markingGuide" accept=".pdf,.doc,.docx,.txt">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="teacherInstructions">Specific Instructions (Optional)</label>
-              <textarea id="teacherInstructions" name="teacherInstructions" rows="3" placeholder="e.g., 'Deduct points for poor grammar', 'Focus strictly on the methodology'"></textarea>
-            </div>
-
-            <button type="submit" class="prime-btn" id="submitBtn">
-              <span class="btn-text">Grade Submission</span>
-              <div class="spinner hidden" id="loadingSpinner"></div>
-            </button>
-          </form>
-        </section>
-
-        <!-- Results Section (Initially hidden) -->
-        <section class="glass-card results-section hidden" id="resultsCard">
-          <div class="results-header">
-            <h2>Evaluation Results</h2>
-            <button class="secondary-btn" id="resetBtn">Grade Another</button>
-          </div>
-          
-          <div class="student-info-panel">
-            <div class="info-badge">
-              <span class="lbl">Student Name</span>
-              <span class="val" id="resName">-</span>
-            </div>
-            <div class="info-badge">
-              <span class="lbl">ID</span>
-              <span class="val" id="resId">-</span>
-            </div>
-            <div class="info-badge highlight">
-              <span class="lbl">Score</span>
-              <strong class="val score-val" id="resScore">-</strong>
-            </div>
-          </div>
-
-          <div class="remarks-box" id="resRemarksBox">
-            <h3>Overall Remarks</h3>
-            <p id="resRemarks">-</p>
-          </div>
-
-          <div class="qa-container" id="qaContainer">
-            <!-- Evaluated questions will be injected here by JS -->
-          </div>
-        </section>
-
-      </main>
+    <div id="uploadCard">
+      <form id="gradingForm">
+        <p>
+          Student file: <br>
+          <input type="file" id="studentFile" required>
+        </p>
+        <p>
+          Marking guide: <br>
+          <input type="file" id="markingGuide">
+        </p>
+        <p>
+          Extra Rules: <br>
+          <textarea id="teacherInstructions" rows="3" cols="40"></textarea>
+        </p>
+        <button type="submit" id="submitBtn">
+          <span class="btn-text">Grade it</span>
+          <span id="loadingSpinner" class="hidden"> (working...)</span>
+        </button>
+      </form>
     </div>
-    
+
+    <hr>
+
+    <div id="resultsCard" class="hidden">
+      <h2>Results from AI</h2>
+      <p>Student Name: <span id="resName"></span></p>
+      <p>Student ID: <span id="resId"></span></p>
+      <p>Total Score: <b id="resScore"></b></p>
+      
+      <div id="resRemarksBox" class="hidden">
+        <h3>Remarks</h3>
+        <p id="resRemarks"></p>
+      </div>
+
+      <div id="qaContainer"></div>
+
+      <button id="resetBtn">Upload Another</button>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

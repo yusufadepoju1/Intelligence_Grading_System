@@ -5,19 +5,96 @@ import upload from './upload.js';
 import { extractDocumentText } from './documentParser.js';
 import { chat, evaluateSubmission } from './aiAccess.js';
 import { saveGradingResult } from './csvStorage.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'AI Grading System API',
+            version: '1.0.0',
+            description: 'This is the API documentation for my AI Grading System.',
+        },
+        servers: [
+            {
+                url: `http://localhost:${PORT}`
+            }
+        ]
+    },
+    apis: ['./app.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
+// Built-in static serving for the frontend folder
+app.use(express.static('frontend'));
+
+/**
+ * @swagger
+ * /api-status:
+ *   get:
+ *     summary: Check if API is running
+ *     responses:
+ *       200:
+ *         description: API is running message.
+ */
+app.get('/api-status', (req, res) => {
     res.json({ message: 'AI Grading System API is running.' });
 });
 
+/**
+ * @swagger
+ * /chat:
+ *   post:
+ *     summary: Talk to the AI
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: AI Reply
+ */
 app.post('/chat', chat);
 
+/**
+ * @swagger
+ * /upload:
+ *   post:
+ *     summary: Upload student work for AI grading
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               studentFile:
+ *                 type: string
+ *                 format: binary
+ *               markingGuide:
+ *                 type: string
+ *                 format: binary
+ *               teacherInstructions:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Grading result with score and feedback
+ *       400:
+ *         description: Missing student file
+ */
 app.post('/upload', upload.fields([
     { name: 'studentFile', maxCount: 1 },
     { name: 'markingGuide', maxCount: 1 }
